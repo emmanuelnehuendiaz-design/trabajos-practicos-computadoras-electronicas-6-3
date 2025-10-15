@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Consejo del día</title>
+<style>
+body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+#dato { font-size: 20px; margin: 20px; transition: all 0.5s; }
+button { padding: 10px 15px; border-radius: 8px; cursor: pointer; }
+button:hover { background-color: #ddd; }
+</style>
+</head>
+<body>
+<h2>Consejo del día 🧠</h2>
+<p id="dato">Cargando...</p>
+<button onclick="cargarDato()">Actualizar</button>
+
+<script>
+// Lista de consejos en español
+const consejos = [
+  "No dejes para mañana lo que puedes hacer hoy.",
+  "Sé amable con los demás, siempre.",
+  "Aprende algo nuevo todos los días.",
+  "No tengas miedo de cometer errores, aprendes de ellos.",
+  "Organiza tu tiempo y prioriza lo importante.",
+  "Escucha más de lo que hablas.",
+  "Cuida tu salud física y mental.",
+  "Sé constante en tus objetivos.",
+  "Ayuda a los demás sin esperar nada a cambio.",
+  "Disfruta las pequeñas cosas de la vida."
+];
+
+function cargarDato() {
+  const indice = Math.floor(Math.random() * consejos.length);
+  const consejo = consejos[indice];
+  const p = document.getElementById("dato");
+  p.style.opacity = 0;
+  setTimeout(() => {
+    p.innerText = consejo;
+    p.style.opacity = 1;
+  }, 500);
+}
+
+// Cargar un consejo al inicio
+cargarDato();
+</script>
+</body>
+</html>
