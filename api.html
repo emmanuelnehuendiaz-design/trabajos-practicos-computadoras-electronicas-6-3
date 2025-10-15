@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consejo del Día</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+    #consejo {
+      font-size: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 20px;
+      border-radius: 12px;
+      display: inline-block;
+      transition: opacity 0.6s ease;
+      max-width: 300px;
+    }
+
+    #btn {
+      background-color: #ffffff;
+      color: #0072ff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    #btn:hover {
+      background-color: #f2f2f2;
+      transform: scale(1.05);
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <h1>💡 Consejo del Día</h1>
+  <div id="consejo">Cargando consejo...</div><br>
+  <button id="btn">🔄 Nuevo consejo</button>
+
+  <footer>Hecho por Emmanuel</footer>
+
+  <script>
+    const consejoDiv = document.getElementById("consejo");
+    const boton = document.getElementById("btn");
+
+    async function obtenerConsejo() {
+      consejoDiv.style.opacity = 0; // inicia animación
+      try {
+        const res = await fetch("https://api.adviceslip.com/advice");
+        const data = await res.json();
+        const texto = data.slip.advice;
+
+        // Traducción automática al español usando API gratuita de MyMemory
+        const tradRes = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(texto)}&langpair=en|es`);
+        const tradData = await tradRes.json();
+        const consejoTraducido = tradData.responseData.translatedText;
+
+        setTimeout(() => {
+          consejoDiv.textContent = consejoTraducido;
+          consejoDiv.style.opacity = 1; // termina animación
+        }, 600);
+      } catch (error) {
+        consejoDiv.textContent = "Error al obtener el consejo. Verificá tu conexión.";
+        consejoDiv.style.opacity = 1;
+      }
+    }
+
+    boton.addEventListener("click", obtenerConsejo);
+    obtenerConsejo();
+  </script>
+</body>
+</html>
+
